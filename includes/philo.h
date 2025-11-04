@@ -6,49 +6,71 @@
 /*   By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:58:33 by frocha-b          #+#    #+#             */
-/*   Updated: 2025/10/31 11:39:50 by frocha-b         ###   ########.fr       */
+/*   Updated: 2025/11/04 16:52:28 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
+#define MIN_TIME 60
+
 /******************************************************************************/
 /*                             Libraries                                      */
 /******************************************************************************/
-# include "pthread.h"
-# include "stdio.h"
-# include "unistd.h"
-# include "stdlib.h"
-# include "limits.h"
+# include <pthread.h>
+# include <stdio.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <limits.h>
+# include <sys/time.h>
+
+# define FORKS "has taken a fork"
+# define EATING "is eating"
+# define SLEEPING "is sleeping"
+# define THINKING "is thinking"
+# define DIED " died\n"
 
 /******************************************************************************/
 /*                               STRUCTS                                      */
 /******************************************************************************/
 typedef	struct s_philo
 {
-	int	id;
+	int				id;
+	pthread_t 		thread;
+	pthread_mutex_t	*fork_mutex;
+	long			time_of_last_meal;
+	int				meals_eaten;
 }				t_philo;
 
-typedef struct s_data
+typedef struct s_table
 {
-	int		number_of_philos;
-	size_t	time_to_die;
-	size_t	time_to_eat;
-	size_t	time_to_sleep;
-	int		number_of_meals;	
-}				t_data;
+	int				nbr_of_philos;
+	long			start_time;
+	long			time_to_die;
+	long			time_to_eat;
+	long			time_to_sleep;
+	int				nbr_of_meals_to_eat;
+	pthread_mutex_t	nbr_of_meals_eaten;
+	struct s_philo	*philos;
+}				t_table;
+
+void	init_threads(t_table *table);
+void	init_philos(t_table *table);
 
 /******************************************************************************/
 /*                               UTILS                                        */
 /******************************************************************************/
+void	*ft_memset(void *s, int c, size_t n);
+int		ft_is_digit(char c);
 long	ft_atol(char *n);
 void	ft_exit_error(char *message);
 void	ft_putstr_fd(char *s, int fd);
+long	get_time_in_ms();
 
 /******************************************************************************/
 /*                               PARSER                                       */
 /******************************************************************************/
-void	validate_args(int argc, char **argv);
-void	init_args(t_data *data, int argc, char **argv);
+void	check_args(int argc, char **argv);
+void	init_args(t_table *table, int argc, char **argv);
 #endif

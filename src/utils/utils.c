@@ -1,16 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atol.c                                          :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/09 15:02:41 by frocha-b          #+#    #+#             */
-/*   Updated: 2025/10/31 11:40:21 by frocha-b         ###   ########.fr       */
+/*   Created: 2025/11/04 14:47:41 by frocha-b          #+#    #+#             */
+/*   Updated: 2025/11/04 15:03:50 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int	ft_is_digit(char c)
+{
+	return (c >= '0' && c <= '9');
+}
 
 long	ft_atol(char *n)
 {
@@ -36,3 +41,26 @@ long	ft_atol(char *n)
 	}
 	return (res * signal);
 }
+
+void	ft_putstr_fd(char *s, int fd)
+{
+	if (!s)
+		return ;
+	while (*s)
+		write(fd, s++, 1);
+}
+
+
+void	*ft_memset(void *s, int c, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < n)
+	{
+		((unsigned char *)s)[i] = c;
+		i++;
+	}
+	return (s);
+}
+

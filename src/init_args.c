@@ -6,20 +6,30 @@
 /*   By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 16:13:53 by frocha-b          #+#    #+#             */
-/*   Updated: 2025/10/14 18:05:29 by frocha-b         ###   ########.fr       */
+/*   Updated: 2025/11/04 16:31:50 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	init_args(t_data *data, int argc, char **argv)
+void	init_args(t_table *table, int argc, char **argv)
 {
-	data->number_of_philos = ft_atol(argv[1]);
-	data->time_to_die = ft_atol(argv[2]);
-	data->time_to_eat = ft_atol(argv[3]);
-	data->time_to_sleep = ft_atol(argv[4]);
+	table->nbr_of_philos 		= ft_atol(argv[1]);
+	table->start_time			= get_time_in_ms();
+	table->time_to_die 			= ft_atol(argv[2]);
+	table->time_to_eat 			= ft_atol(argv[3]);
+	table->time_to_sleep 		= ft_atol(argv[4]);
 	if (argc == 6)
-		data->number_of_meals = ft_atol(argv[5]);
+		table->nbr_of_meals_to_eat	= ft_atol(argv[5]);
 	else
-		data->number_of_meals = -1;
+		table->nbr_of_meals_to_eat	= -1;
+	pthread_mutex_init(&table->nbr_of_meals_eaten, NULL);
+}
+
+long	get_time_in_ms()
+{
+	struct timeval	current_time;
+
+	gettimeofday(&current_time, NULL);
+	return ((current_time.tv_sec * 1000) + current_time.tv_usec / 1000);
 }

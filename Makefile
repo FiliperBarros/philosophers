@@ -6,7 +6,7 @@
 #    By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/01 16:59:12 by frocha-b          #+#    #+#              #
-#    Updated: 2025/10/31 11:41:15 by frocha-b         ###   ########.fr        #
+#    Updated: 2025/11/04 16:10:14 by frocha-b         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,14 +20,8 @@ CFLAGS		= -Wall -Werror -Wextra -g
 SRC_DIR 	= src
 OBJ_DIR 	= objects
 
-SRC_FILES 	= \
-			  main.c \
-			  #ft_exit_error.c \
-			  ft_atol.c \
-			  ft_putstr_fd.c \
-			  validate_args.c \
-			  init_args.c \
-				
+SRC_FILES 	= $(shell find $(SRC_DIR) -name "*.c")
+
 #Converts the source files in object files
 OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC_FILES))
 
