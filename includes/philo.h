@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:58:33 by frocha-b          #+#    #+#             */
-/*   Updated: 2025/11/05 14:09:16 by frocha-b         ###   ########.fr       */
+/*   Updated: 2025/11/05 14:23:24 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,15 @@ typedef	struct s_philo
 typedef struct s_table
 {
 	int				nbr_of_philos;
-	long			start_time;
 	long			time_to_die;
 	long			time_to_eat;
 	long			time_to_sleep;
+	long			start_time;
 	int				nbr_of_meals_to_eat;
 	int				philo_dead;
 	pthread_mutex_t	nbr_of_meals_eaten;
-	pthread_mutex_t	*forks;
 	pthread_mutex_t printf_mutex;
+	pthread_mutex_t	*forks;
 	struct s_philo	*philos;
 }				t_table;
 

@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 16:35:16 by frocha-b          #+#    #+#             */
-/*   Updated: 2025/11/05 13:42:59 by frocha-b         ###   ########.fr       */
+/*   Updated: 2025/11/05 14:24:52 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	init_forks(t_table *table)
 {
 	int	i;
+	
 	table->forks = malloc(sizeof(pthread_mutex_t) * table->nbr_of_philos);
 	if (!table->forks)
 		ft_exit_error("Failed to allocate forks.");
