@@ -6,25 +6,12 @@
 /*   By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:58:22 by frocha-b          #+#    #+#             */
-/*   Updated: 2025/11/04 16:24:47 by frocha-b         ###   ########.fr       */
+/*   Updated: 2025/11/05 13:46:17 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-/* 
-int mails = 0;
-
-pthread_mutex_t mutex;
-void*	routine()
-{
-	for (int i = 0; i < 100000; i++){
-		pthread_mutex_lock(&mutex);
-		mails++;
-		pthread_mutex_unlock(&mutex);
-	}
-	return (NULL);
-}
-
+/*
 int	main(void)
 {
 	pthread_t	th[4];
@@ -56,16 +43,13 @@ int	main(void)
 
 int	main(int argc, char **argv)
 {
+	
 	t_table table;
-
 	check_args(argc, argv);
 	(void) ft_memset(&table, '\0', sizeof(t_table));
 	
-	init_args(&table, argc, argv);
-
-	
+	init_table(&table, argc, argv);
 	init_philos(&table);
 	init_threads(&table);
-	
-
+	return (0);
 }
