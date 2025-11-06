@@ -6,7 +6,7 @@
 #    By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/01 16:59:12 by frocha-b          #+#    #+#              #
-#    Updated: 2025/11/04 16:10:14 by frocha-b         ###   ########.fr        #
+#    Updated: 2025/11/06 11:03:52 by frocha-b         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC_FILES))
 PHILO_INC	= -Iincludes
 
 # Tell make where to search for source files
-VPATH		= $(SRC_DIR) $(SRC_DIR)/utils
+VPATH		= $(SRC_DIR) $(SRC_DIR)/utils	
 
 # **************************************************************************** #
 #                                MAKE RULES                                    #

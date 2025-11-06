@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 15:10:08 by frocha-b          #+#    #+#             */
-/*   Updated: 2025/11/03 15:52:02 by frocha-b         ###   ########.fr       */
+/*   Updated: 2025/11/06 11:15:15 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,6 @@ void	ft_exit_error(char *message)
 {
 	ft_putstr_fd("Error\n", 2);
 	ft_putstr_fd(message, 2);
-	printf("\n");
+	ft_putstr_fd("\n", 2);
 	exit(1);
 }

@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:58:33 by frocha-b          #+#    #+#             */
-/*   Updated: 2025/11/05 14:23:24 by frocha-b         ###   ########.fr       */
+/*   Updated: 2025/11/06 15:33:56 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,11 @@ typedef	struct s_philo
 {
 	int				id;
 	pthread_t 		thread;
-	pthread_mutex_t	*left_fork;
-	pthread_mutex_t	*right_fork;
 	long			time_of_last_meal;
 	int				meals_eaten;
+	pthread_mutex_t	*left_fork;
+	pthread_mutex_t	*right_fork;
+	pthread_mutex_t	last_meal_mutex;
 	struct s_table	*table;
 	
 }				t_philo;
@@ -57,6 +58,7 @@ typedef struct s_table
 	int				philo_dead;
 	pthread_mutex_t	nbr_of_meals_eaten;
 	pthread_mutex_t printf_mutex;
+	pthread_mutex_t died_mutex;
 	pthread_mutex_t	*forks;
 	struct s_philo	*philos;
 }				t_table;
@@ -67,7 +69,8 @@ void	init_forks(t_table *table);
 void	allocate_and_init_forks(t_table *table);
 void	init_table(t_table *table, int argc, char **argv);
 
-void	*routine(void *arg);
+void	*philo_routine(void *arg);
+void	message(t_philo	*philo, char  *message);
 
 /******************************************************************************/
 /*                               UTILS                                        */
