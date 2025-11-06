@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 16:13:53 by frocha-b          #+#    #+#             */
-/*   Updated: 2025/11/06 15:40:51 by frocha-b         ###   ########.fr       */
+/*   Updated: 2025/11/06 16:23:54 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,6 @@ void	init_table(t_table *table, int argc, char **argv)
 	table->time_to_eat = ft_atol(argv[3]);
 	table->time_to_sleep = ft_atol(argv[4]);
 	table->philo_dead = 0;
-	pthread_mutex_init(&table->nbr_of_meals_eaten, NULL);
-	pthread_mutex_init(&table->printf_mutex, NULL);
-	pthread_mutex_init(&table->died_mutex, NULL);
 	init_forks(table);
 	init_philos(table);
 	if (argc == 6)
@@ -58,10 +55,9 @@ void	init_philos(t_table *table)
 	{
 		table->philos[i].id = i + 1 ;
 		table->philos[i].meals_eaten = 0;
-		table->philos[i].time_of_last_meal = table->start_time;	
+		table->philos[i].last_meal = table->start_time;	
 		table->philos[i].left_fork = &table->forks[i];
 		table->philos[i].right_fork = &table->forks[(i + 1) % table->nbr_of_philos];
-		pthread_mutex_init(&table->philos[i].last_meal_mutex,NULL);
 		table->philos[i].table = table;
 		i++;
 	}

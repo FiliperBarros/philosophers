@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:58:33 by frocha-b          #+#    #+#             */
-/*   Updated: 2025/11/06 15:33:56 by frocha-b         ###   ########.fr       */
+/*   Updated: 2025/11/06 17:17:00 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 /******************************************************************************/
 /*                             Libraries                                      */
 /******************************************************************************/
+#include "ansi_colors.h"
+
 # include <pthread.h>
 # include <stdio.h>
 # include <unistd.h>
@@ -38,11 +40,12 @@ typedef	struct s_philo
 {
 	int				id;
 	pthread_t 		thread;
-	long			time_of_last_meal;
+	long			last_meal;
 	int				meals_eaten;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
 	pthread_mutex_t	last_meal_mutex;
+	pthread_mutex_t	count_meals_mutex;
 	struct s_table	*table;
 	
 }				t_philo;
@@ -63,6 +66,12 @@ typedef struct s_table
 	struct s_philo	*philos;
 }				t_table;
 
+void	take_forks(t_philo *philo);
+void	message(t_philo *philo, char  *message, int color);
+int check_any_philo_dead(t_table *table);
+
+
+void	init_mutexes(t_table *table);
 void	init_threads(t_table *table);
 void	init_philos(t_table *table);
 void	init_forks(t_table *table);
@@ -70,7 +79,6 @@ void	allocate_and_init_forks(t_table *table);
 void	init_table(t_table *table, int argc, char **argv);
 
 void	*philo_routine(void *arg);
-void	message(t_philo	*philo, char  *message);
 
 /******************************************************************************/
 /*                               UTILS                                        */
