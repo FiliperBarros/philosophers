@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:58:33 by frocha-b          #+#    #+#             */
-/*   Updated: 2025/11/06 17:17:00 by frocha-b         ###   ########.fr       */
+/*   Updated: 2025/11/06 17:41:39 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #define MIN_TIME 60
 
 /******************************************************************************/
-/*                             Libraries                                      */
+/*                               LIBRARY                                      */
 /******************************************************************************/
 #include "ansi_colors.h"
 
@@ -26,6 +26,37 @@
 # include <stdlib.h>
 # include <limits.h>
 # include <sys/time.h>
+
+
+/******************************************************************************/
+/*                            	 ENUM	                                      */
+/******************************************************************************/
+typedef enum {
+    RESET        = 0,
+    BLACK        = 30,
+    RED          = 31,
+    GREEN        = 32,
+    YELLOW       = 33,
+    BLUE         = 34,
+    MAGENTA      = 35,
+    CYAN         = 36,
+    WHITE        = 37,
+    BRIGHT_BLACK   = 90,
+    BRIGHT_RED     = 91,
+    BRIGHT_GREEN   = 92,
+    BRIGHT_YELLOW  = 93,
+    BRIGHT_BLUE    = 94,
+    BRIGHT_MAGENTA = 95,
+    BRIGHT_CYAN    = 96,
+    BRIGHT_WHITE   = 97
+} AnsiColor;
+
+/******************************************************************************/
+/*                            	DEFINE	                                      */
+/******************************************************************************/
+#define SET_COLOR(code)        printf("\033[%dm", code)
+#define SET_BOLD_COLOR(code)   printf("\033[1;%dm", code)
+#define RESET_COLOR()          printf("\033[0m")
 
 # define FORKS "has taken a fork"
 # define EATING "is eating"
@@ -66,19 +97,20 @@ typedef struct s_table
 	struct s_philo	*philos;
 }				t_table;
 
+
 void	take_forks(t_philo *philo);
 void	message(t_philo *philo, char  *message, int color);
 int check_any_philo_dead(t_table *table);
 
-
-void	init_mutexes(t_table *table);
-void	init_threads(t_table *table);
+void	*philo_routine(void *arg);
+/******************************************************************************/
+/*                               INIT                                        */
+/******************************************************************************/
+void	init_table(t_table *table, int argc, char **argv);
 void	init_philos(t_table *table);
 void	init_forks(t_table *table);
-void	allocate_and_init_forks(t_table *table);
-void	init_table(t_table *table, int argc, char **argv);
-
-void	*philo_routine(void *arg);
+void	init_mutexes(t_table *table);
+void	init_threads(t_table *table);
 
 /******************************************************************************/
 /*                               UTILS                                        */
