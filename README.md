@@ -67,7 +67,7 @@ make
 
 Run with:
 ```bash
-./philo number_of_philosophers time_to_die time_to_eat time_to_sleep [nbr_times_each_philo_must_eat]
+./philo nbr_of_philos time_to_die time_to_eat time_to_sleep [nbr_times_each_philo_must_eat]
 ```
 
 Example
