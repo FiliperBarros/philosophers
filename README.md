@@ -72,13 +72,4 @@ Run with:
 
 Example
 ```bash
-./philo 4 410 200 200
-
-
-
-
-
-
-
-
-🧩
+./philo 4 410 200 200 200
