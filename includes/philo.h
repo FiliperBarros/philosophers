@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:58:33 by frocha-b          #+#    #+#             */
-/*   Updated: 2025/11/10 11:49:57 by frocha-b         ###   ########.fr       */
+/*   Updated: 2025/11/10 13:54:06 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,11 @@ typedef struct s_table
 	struct s_philo	*philos;
 }				t_table;
 
-int 	check_any_philo_dead(t_table *table);
+int		monitor_philo_dead(t_table *table);
 void	destroy_all_mutexes(t_table	*table);
 void	take_forks(t_philo *philo);
-void	message(t_philo *philo, char  *message, int color);
+void	drop_forks(t_philo *philo);
+void	monitoring(t_philo *philo, char  *message, int color);
 void	*philo_routine(void *arg);
 
 /******************************************************************************/

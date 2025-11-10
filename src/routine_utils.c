@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 16:36:23 by frocha-b          #+#    #+#             */
-/*   Updated: 2025/11/10 12:32:40 by frocha-b         ###   ########.fr       */
+/*   Updated: 2025/11/10 13:53:14 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,41 @@
 
 void	take_forks(t_philo *philo)
 {
-	pthread_mutex_lock((philo->right_fork));
-	pthread_mutex_lock(philo->left_fork);
-	message(philo, FORKS, WHITE);
-	message(philo, FORKS, WHITE);
+	if (philo->id % 2 == 0)
+	{
+		pthread_mutex_lock(philo->left_fork);
+		monitoring(philo, FORKS, WHITE);
+		pthread_mutex_lock((philo->right_fork));
+		monitoring(philo, FORKS, WHITE);
+	}
+	else
+	{
+		pthread_mutex_lock((philo->right_fork));
+		monitoring(philo, FORKS, WHITE);
+		pthread_mutex_lock(philo->left_fork);
+		monitoring(philo, FORKS, WHITE);
+	}
 }
-void	message(t_philo *philo, char  *message, int ansi_color)
+
+void	drop_forks(t_philo *philo)
+{
+	if (philo->id % 2 == 0)
+	{
+		pthread_mutex_unlock(philo->left_fork);
+		monitoring(philo, FORKS, WHITE);
+		pthread_mutex_unlock((philo->right_fork));
+		monitoring(philo, FORKS, WHITE);
+	}
+	else
+	{
+		pthread_mutex_unlock((philo->right_fork));
+		monitoring(philo, FORKS, WHITE);
+		pthread_mutex_unlock(philo->left_fork);
+		monitoring(philo, FORKS, WHITE);
+	}
+	
+}
+void	monitoring(t_philo *philo, char  *message, int ansi_color)
 {
 	long	timestamp;
 	
@@ -39,7 +68,7 @@ void	message(t_philo *philo, char  *message, int ansi_color)
 	
 }
 
-int check_any_philo_dead(t_table *table)
+int monitor_philo_dead(t_table *table)
 {
 
 	int 	i;
@@ -60,7 +89,7 @@ int check_any_philo_dead(t_table *table)
 		now = get_time_in_ms();
 		if (now - table->philos[i].last_meal >= table->time_to_die)
 		{	
-			message(&table->philos[i], DIED, RED);
+			monitoring(&table->philos[i], DIED, RED);
 			pthread_mutex_lock(&table->died_mutex);
 			table->philo_dead = 1;
 			pthread_mutex_unlock(&table->died_mutex);
