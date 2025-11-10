@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 16:13:53 by frocha-b          #+#    #+#             */
-/*   Updated: 2025/11/06 16:23:54 by frocha-b         ###   ########.fr       */
+/*   Updated: 2025/11/10 11:28:31 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	init_forks(t_table *table)
 {
 	int	i;
 	
+	// TODO: Check if free needed
 	table->forks = malloc(sizeof(pthread_mutex_t) * table->nbr_of_philos);
 	if (!table->forks)
 		ft_exit_error("Failed to allocate forks.");
@@ -55,7 +56,6 @@ void	init_philos(t_table *table)
 	{
 		table->philos[i].id = i + 1 ;
 		table->philos[i].meals_eaten = 0;
-		table->philos[i].last_meal = table->start_time;	
 		table->philos[i].left_fork = &table->forks[i];
 		table->philos[i].right_fork = &table->forks[(i + 1) % table->nbr_of_philos];
 		table->philos[i].table = table;

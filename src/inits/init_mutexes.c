@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 15:54:32 by frocha-b          #+#    #+#             */
-/*   Updated: 2025/11/06 16:29:15 by frocha-b         ###   ########.fr       */
+/*   Updated: 2025/11/07 11:25:00 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 static void	init_table_mutexes(t_table *table)
 {
-	pthread_mutex_init(&table->nbr_of_meals_eaten, NULL);
+	pthread_mutex_init(&table->nbr_of_meals_eaten_mutex, NULL);
 	pthread_mutex_init(&table->printf_mutex, NULL);
 	pthread_mutex_init(&table->died_mutex, NULL);
 }
