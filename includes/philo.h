@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:58:33 by frocha-b          #+#    #+#             */
-/*   Updated: 2025/11/10 13:54:06 by frocha-b         ###   ########.fr       */
+/*   Updated: 2025/11/10 17:42:20 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,9 @@ typedef enum {
 # define THINKING "is thinking"
 # define DIED " died\n"
 
+
+#define MICRO_SECONDS 1000
+
 /******************************************************************************/
 /*                               STRUCTS                                      */
 /******************************************************************************/
@@ -60,8 +63,6 @@ typedef	struct s_philo
 	int				meals_eaten;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
-	pthread_mutex_t	last_meal_mutex;
-	pthread_mutex_t	count_meals_mutex;
 	struct s_table	*table;
 	
 }				t_philo;
@@ -74,16 +75,16 @@ typedef struct s_table
 	long			time_to_sleep;
 	long			start_time;
 	int				nbr_of_meals_to_eat;
-	int				philo_dead;
-	pthread_mutex_t	nbr_of_meals_eaten_mutex;
-	pthread_mutex_t printf_mutex;
-	pthread_mutex_t died_mutex;
+	int				simulation_should_end;
+	pthread_mutex_t	monitoring_mutex;
+	pthread_mutex_t	last_meal_mutex;
 	pthread_mutex_t	*forks;
 	struct s_philo	*philos;
 }				t_table;
 
+
 int		monitor_philo_dead(t_table *table);
-void	destroy_all_mutexes(t_table	*table);
+void	destroy(t_table	*table);
 void	take_forks(t_philo *philo);
 void	drop_forks(t_philo *philo);
 void	monitoring(t_philo *philo, char  *message, int color);
@@ -110,4 +111,17 @@ long	get_time_in_ms();
 
 void	check_args(int argc, char **argv);
 
+
+
+static inline int starved(t_philo *philo)
+{
+	return (get_time_in_ms() - philo->last_meal >= philo->table->time_to_die);
+}
+
+static inline void all_have_eaten(t_table *table)
+{
+	table->simulation_should_end = 1;
+	printf("Every Philosopher had %d meals!\n", table->nbr_of_meals_to_eat);
+	pthread_mutex_unlock(&table->monitoring_mutex);
+}
 #endif

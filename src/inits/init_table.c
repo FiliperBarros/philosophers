@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 16:13:53 by frocha-b          #+#    #+#             */
-/*   Updated: 2025/11/10 11:28:31 by frocha-b         ###   ########.fr       */
+/*   Updated: 2025/11/10 17:43:11 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@ void	init_table(t_table *table, int argc, char **argv)
 	table->time_to_die = ft_atol(argv[2]);
 	table->time_to_eat = ft_atol(argv[3]);
 	table->time_to_sleep = ft_atol(argv[4]);
-	table->philo_dead = 0;
+	table->simulation_should_end = 0;
+	pthread_mutex_init(&table->monitoring_mutex, NULL);
+	pthread_mutex_init(&table->last_meal_mutex, NULL);
 	init_forks(table);
 	init_philos(table);
 	if (argc == 6)
@@ -31,7 +33,6 @@ void	init_forks(t_table *table)
 {
 	int	i;
 	
-	// TODO: Check if free needed
 	table->forks = malloc(sizeof(pthread_mutex_t) * table->nbr_of_philos);
 	if (!table->forks)
 		ft_exit_error("Failed to allocate forks.");
