@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 16:36:23 by frocha-b          #+#    #+#             */
-/*   Updated: 2025/11/10 18:04:08 by frocha-b         ###   ########.fr       */
+/*   Updated: 2025/11/11 17:00:56 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,23 @@ void	take_forks(t_philo *philo)
 	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(philo->left_fork);
-		monitoring(philo, FORKS, WHITE);
+		/* SET_BOLD_COLOR(SOME);
+		fprintf(stderr, "DBG: philo %d locked fork %p\n", philo->id, (void *)philo->left_fork); */
 		pthread_mutex_lock((philo->right_fork));
-		monitoring(philo, FORKS, WHITE);
+		/* SET_BOLD_COLOR(SOME);
+		fprintf(stderr, "DBG: philo %d unlocked fork %p\n", philo->id, (void *)philo->right_fork); */
 	}
 	else
 	{
 		pthread_mutex_lock((philo->right_fork));
-		monitoring(philo, FORKS, WHITE);
+		/* SET_BOLD_COLOR(SOME);
+		fprintf(stderr, "DBG: philo %d unlocked fork %p\n", philo->id, (void *)philo->right_fork); */
 		pthread_mutex_lock(philo->left_fork);
-		monitoring(philo, FORKS, WHITE);
+		/* SET_BOLD_COLOR(SOME);
+		fprintf(stderr, "DBG: philo %d unlocked fork %p\n", philo->id, (void *)philo->left_fork); */
 	}
+	monitoring(philo, FORKS, WHITE);
+	monitoring(philo, FORKS, WHITE);
 }
 
 void	drop_forks(t_philo *philo)
@@ -35,12 +41,20 @@ void	drop_forks(t_philo *philo)
 	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_unlock(philo->left_fork);
+		/* SET_BOLD_COLOR(SOME);
+		fprintf(stderr, "DBG: philo %d unlocked fork %p\n", philo->id, (void *)philo->left_fork); */
 		pthread_mutex_unlock((philo->right_fork));
+		/* SET_BOLD_COLOR(SOME);
+		fprintf(stderr, "DBG: philo %d unlocked fork %p\n", philo->id, (void *)philo->right_fork); */
 	}
 	else
 	{
 		pthread_mutex_unlock((philo->right_fork));
+		/* SET_BOLD_COLOR(SOME);
+		fprintf(stderr, "DBG: philo %d unlocked fork %p\n", philo->id, (void *)philo->right_fork); */
 		pthread_mutex_unlock(philo->left_fork);
+		/* SET_BOLD_COLOR(SOME);
+		fprintf(stderr, "DBG: philo %d unlocked fork %p\n", philo->id, (void *)philo->left_fork); */
 	}
 }
 void	monitoring(t_philo *philo, char  *message, int ansi_color)

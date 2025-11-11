@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 13:01:20 by frocha-b          #+#    #+#             */
-/*   Updated: 2025/11/10 17:57:45 by frocha-b         ###   ########.fr       */
+/*   Updated: 2025/11/11 18:36:48 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,19 @@ void	*philo_routine(void *arg)
 	t_philo	*philo;
 	
 	philo = (t_philo *) arg;
-	
+
 	if (philo->table->nbr_of_philos == 1)
 		monitoring(philo, FORKS, WHITE);
-	 while (1)
+
+	if (philo->id % 2 == 0)
+		usleep(MICRO_SECONDS);
+
+	while (1)
 	{
 		pthread_mutex_lock(&philo->table->monitoring_mutex);
 		if (philo->table->simulation_should_end)
 		{
-	        pthread_mutex_lock(&philo->table->monitoring_mutex);
+	        pthread_mutex_unlock(&philo->table->monitoring_mutex);
 			break ;
 		}
 		pthread_mutex_unlock(&philo->table->monitoring_mutex);
@@ -60,37 +64,3 @@ void	*philo_routine(void *arg)
 	}
 	return (NULL);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

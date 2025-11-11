@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:58:33 by frocha-b          #+#    #+#             */
-/*   Updated: 2025/11/10 17:42:20 by frocha-b         ###   ########.fr       */
+/*   Updated: 2025/11/11 18:45:25 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef enum {
     RED          = 31,
     GREEN        = 32,
     BLUE         = 34,
+	SOME		 = 0,
     WHITE        = 37,
     BRIGHT_YELLOW  = 93,
 } AnsiColor;
@@ -122,6 +123,5 @@ static inline void all_have_eaten(t_table *table)
 {
 	table->simulation_should_end = 1;
 	printf("Every Philosopher had %d meals!\n", table->nbr_of_meals_to_eat);
-	pthread_mutex_unlock(&table->monitoring_mutex);
 }
 #endif
