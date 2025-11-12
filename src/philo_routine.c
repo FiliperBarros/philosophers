@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 13:01:20 by frocha-b          #+#    #+#             */
-/*   Updated: 2025/11/11 18:36:48 by frocha-b         ###   ########.fr       */
+/*   Updated: 2025/11/12 18:15:34 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,19 @@
 void	eating(t_philo *philo)
 {
 	take_forks(philo);
+	
 	pthread_mutex_lock(&philo->table->last_meal_mutex);
 	philo->last_meal = get_time_in_ms();
-	philo->meals_eaten += 1;
 	pthread_mutex_unlock(&philo->table->last_meal_mutex);
-	
+
 	monitoring(philo, EATING, GREEN);
 	
 	usleep(philo->table->time_to_eat * MICRO_SECONDS);
+	
+	pthread_mutex_lock(&philo->table->last_meal_mutex);
+	philo->meals_eaten += 1;
+	pthread_mutex_unlock(&philo->table->last_meal_mutex);
+	
 	drop_forks(philo);
 }
 
@@ -42,13 +47,13 @@ void	*philo_routine(void *arg)
 	t_philo	*philo;
 	
 	philo = (t_philo *) arg;
-
 	if (philo->table->nbr_of_philos == 1)
-		monitoring(philo, FORKS, WHITE);
-
+	{
+		 monitoring(philo, FORKS, WHITE);
+		 return (NULL);
+	}
 	if (philo->id % 2 == 0)
 		usleep(MICRO_SECONDS);
-
 	while (1)
 	{
 		pthread_mutex_lock(&philo->table->monitoring_mutex);

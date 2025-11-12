@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:47:41 by frocha-b          #+#    #+#             */
-/*   Updated: 2025/11/05 11:29:56 by frocha-b         ###   ########.fr       */
+/*   Updated: 2025/11/12 18:13:15 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,3 +72,7 @@ long	get_time_in_ms()
 	return ((current_time.tv_sec * 1000) + current_time.tv_usec / 1000);
 }
 
+void set_bold_color(int code)
+{
+    printf("\033[1;%dm", code);
+}

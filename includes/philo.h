@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:58:33 by frocha-b          #+#    #+#             */
-/*   Updated: 2025/11/11 18:45:25 by frocha-b         ###   ########.fr       */
+/*   Updated: 2025/11/12 18:14:23 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ typedef enum {
     RED          = 31,
     GREEN        = 32,
     BLUE         = 34,
-	SOME		 = 0,
     WHITE        = 37,
     BRIGHT_YELLOW  = 93,
 } AnsiColor;
@@ -42,14 +41,12 @@ typedef enum {
 /******************************************************************************/
 /*                            	DEFINE	                                      */
 /******************************************************************************/
-#define SET_BOLD_COLOR(code)   printf("\033[1;%dm", code)
 
 # define FORKS "has taken a fork"
 # define EATING "is eating"
 # define SLEEPING "is sleeping"
 # define THINKING "is thinking"
-# define DIED " died\n"
-
+# define DIED " died"
 
 #define MICRO_SECONDS 1000
 
@@ -84,6 +81,8 @@ typedef struct s_table
 }				t_table;
 
 
+void set_bold_color(int code);
+
 int		monitor_philo_dead(t_table *table);
 void	destroy(t_table	*table);
 void	take_forks(t_philo *philo);
@@ -116,7 +115,9 @@ void	check_args(int argc, char **argv);
 
 static inline int starved(t_philo *philo)
 {
-	return (get_time_in_ms() - philo->last_meal >= philo->table->time_to_die);
+    long now = get_time_in_ms();
+    long diff = now - philo->last_meal;
+    return (diff > philo->table->time_to_die + 2); // +2 ms tolerance
 }
 
 static inline void all_have_eaten(t_table *table)

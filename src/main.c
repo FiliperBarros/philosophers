@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:58:22 by frocha-b          #+#    #+#             */
-/*   Updated: 2025/11/11 17:02:50 by frocha-b         ###   ########.fr       */
+/*   Updated: 2025/11/12 17:22:53 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,5 @@ int	main(int argc, char **argv)
 	init_threads(&table);
 		
 	destroy(&table);
-	free(table.philos);
-	free(table.forks);
 	return (0);
 }
