@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:58:33 by frocha-b          #+#    #+#             */
-/*   Updated: 2025/11/12 18:14:23 by frocha-b         ###   ########.fr       */
+/*   Updated: 2025/11/12 18:44:49 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,12 @@
 /*                            	 ENUM	                                      */
 /******************************************************************************/
 typedef enum {
-    RED          = 31,
-    GREEN        = 32,
-    BLUE         = 34,
-    WHITE        = 37,
-    BRIGHT_YELLOW  = 93,
+    RED          	= 31,
+    GREEN        	= 32,
+    BLUE         	= 34,
+    WHITE        	= 37,
+    BRIGHT_YELLOW  	= 93,
+	MAGENTA			= 35,
 } AnsiColor;
 
 /******************************************************************************/
@@ -82,6 +83,7 @@ typedef struct s_table
 
 
 void set_bold_color(int code);
+void supervise(t_table *table);
 
 int		monitor_philo_dead(t_table *table);
 void	destroy(t_table	*table);
@@ -122,7 +124,10 @@ static inline int starved(t_philo *philo)
 
 static inline void all_have_eaten(t_table *table)
 {
+	pthread_mutex_lock(&table->monitoring_mutex);
 	table->simulation_should_end = 1;
+	set_bold_color(MAGENTA);
 	printf("Every Philosopher had %d meals!\n", table->nbr_of_meals_to_eat);
+	pthread_mutex_unlock(&table->monitoring_mutex);
 }
 #endif
