@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 13:01:20 by frocha-b          #+#    #+#             */
-/*   Updated: 2025/11/13 18:23:08 by frocha-b         ###   ########.fr       */
+/*   Updated: 2025/11/13 18:27:26 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	monitoring(t_philo *philo, char *message, int ansi_color)
 		return ;
 	timestamp = ft_get_time_in_ms() - philo->table->start_time;
 	ft_set_color(ansi_color);
-	printf("%ld " "%d " "%s\n", timestamp, philo->id, message);
+	printf("%5ld ms  %-1d  %-10s\n", timestamp, philo->id, message);
 	ft_reset_color();
 }
 
