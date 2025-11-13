@@ -1,74 +1,71 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_routine.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/06 13:01:20 by frocha-b          #+#    #+#             */
+/*   Updated: 2025/11/13 18:12:22 by frocha-b         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
+int	simulation_should_end(t_table *table)
+{
+	int end_flag;
+
+	end_flag = 0;
+	pthread_mutex_lock(&table->monitoring_mutex);
+	if (table->simulation_should_end)
+		end_flag = 1;
+	pthread_mutex_unlock(&table->monitoring_mutex);
+	return (end_flag);
+}
 /* Prints a message with timestamp if simulation is ongoing */
 void	monitoring(t_philo *philo, char *message, int ansi_color)
 {
 	long	timestamp;
 
-	pthread_mutex_lock(&philo->table->monitoring_mutex);
-	if (philo->table->simulation_should_end)
-	{
-		pthread_mutex_unlock(&philo->table->monitoring_mutex);
+	if (simulation_should_end(philo->table))
 		return ;
-	}
 	timestamp = ft_get_time_in_ms() - philo->table->start_time;
-	ft_set_bold_color(ansi_color);
-	printf("%ld ms  %d %s\n", timestamp, philo->id, message);
-	pthread_mutex_unlock(&philo->table->monitoring_mutex);
+	ft_set_color(ansi_color);
+	printf("%ld "  "%d " "%s\n", timestamp, philo->id, message);
+	ft_reset_color();
 }
 
 /* Philosopher takes forks, eats, updates last meal and meal count */
 void	eating(t_philo *philo)
 {
+	long time;
+
+	time = philo->table->time_to_eat;
+	if (philo->table->time_to_eat > philo->table->time_to_die)
+		time = philo->table->time_to_die;
 	take_forks(philo);
 	pthread_mutex_lock(&philo->table->last_meal_mutex);
 	philo->last_meal = ft_get_time_in_ms();
 	pthread_mutex_unlock(&philo->table->last_meal_mutex);
 	monitoring(philo, EATING, GREEN);
-
-	long start_eat = ft_get_time_in_ms();
-	while (ft_get_time_in_ms() - start_eat < philo->table->time_to_eat)
-	{
-		pthread_mutex_lock(&philo->table->monitoring_mutex);
-		if (philo->table->simulation_should_end)
-		{
-			pthread_mutex_unlock(&philo->table->monitoring_mutex);
-			drop_forks(philo);
-			return ;
-		}
-		pthread_mutex_unlock(&philo->table->monitoring_mutex);
-		usleep(500); // small sleep to be responsive
-	}
-
+	usleep(time * MICRO_SECONDS);
 	pthread_mutex_lock(&philo->table->last_meal_mutex);
 	philo->meals_eaten += 1;
 	pthread_mutex_unlock(&philo->table->last_meal_mutex);
 	drop_forks(philo);
 }
 
-/* Smart sleep with death check */
-void	smart_sleep(t_philo *philo, long duration)
-{
-	long	start = ft_get_time_in_ms();
-
-	while (ft_get_time_in_ms() - start < duration)
-	{
-		pthread_mutex_lock(&philo->table->monitoring_mutex);
-		if (philo->table->simulation_should_end)
-		{
-			pthread_mutex_unlock(&philo->table->monitoring_mutex);
-			return ;
-		}
-		pthread_mutex_unlock(&philo->table->monitoring_mutex);
-		usleep(500);
-	}
-}
-
 /* Philosopher sleeps for configured time */
 void	sleeping(t_philo *philo)
 {
+	long time;
+
+	time = philo->table->time_to_sleep;
+	if (philo->table->time_to_sleep > philo->table->time_to_die)
+		time = philo->table->time_to_die;
 	monitoring(philo, SLEEPING, BLUE);
-	smart_sleep(philo, philo->table->time_to_sleep);
+	usleep(time * MICRO_SECONDS);
 }
 
 /* Philosopher thinks */
@@ -84,28 +81,22 @@ void	*philo_routine(void *arg)
 
 	philo = (t_philo *) arg;
 	if (philo->table->nbr_of_philos == 1)
-	{
-		monitoring(philo, FORKS, WHITE);
-		smart_sleep(philo, philo->table->time_to_die);
-		return (NULL);
-	}
-
+		return (monitoring(philo, FORKS, WHITE), NULL);
 	if (philo->id % 2 == 0)
-		usleep(1000); // stagger even philosophers
-
-	while (1)
+		usleep(MICRO_SECONDS);
+	while (!simulation_should_end(philo->table))
 	{
-		pthread_mutex_lock(&philo->table->monitoring_mutex);
-		if (philo->table->simulation_should_end)
-		{
-			pthread_mutex_unlock(&philo->table->monitoring_mutex);
-			break ;
-		}
-		pthread_mutex_unlock(&philo->table->monitoring_mutex);
-
 		eating(philo);
+		if (simulation_should_end(philo->table) == 1)
+			break ;
 		sleeping(philo);
+		if (simulation_should_end(philo->table))
+			break ;
 		thinking(philo);
+		if (simulation_should_end(philo->table))
+			break ;
+		if(philo->id %2 != 0 && philo->table->nbr_of_philos % 2 != 0)
+			usleep(MICRO_SECONDS);
 	}
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 14:10:22 by frocha-b          #+#    #+#             */
-/*   Updated: 2025/11/13 14:15:49 by frocha-b         ###   ########.fr       */
+/*   Updated: 2025/11/13 18:12:42 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ typedef enum t_color
 {
 	RED = 31,
 	GREEN = 32,
-	BLUE = 34,
-	WHITE = 37,
+	BLUE  = 34,
+	WHITE = 97,
 	MAGENTA = 35,
-	BRIGHT_YELLOW = 93
+	BRIGHT_YELLOW = 93,
 }	t_ansiColor;
 
 /******************************************************************************/
@@ -69,6 +69,7 @@ typedef struct s_table
 	long			time_to_sleep;
 	long			start_time;
 	int				nbr_of_meals_to_eat;
+
 	int				simulation_should_end;
 
 	pthread_mutex_t	monitoring_mutex;
@@ -78,6 +79,7 @@ typedef struct s_table
 	t_philo			*philos;
 }	t_table;
 
+int	simulation_should_end(t_table *table);
 /******************************************************************************/
 /*                              UTILS FUNCTIONS                               */
 /******************************************************************************/
@@ -86,7 +88,8 @@ long	ft_atol(char *n);
 void	ft_putstr_fd(char *s, int fd);
 void	*ft_memset(void *s, int c, size_t n);
 long	ft_get_time_in_ms(void);
-void	ft_set_bold_color(int code);
+void	ft_set_color(int code);
+void	ft_reset_color(void);
 void	ft_exit_error(char *message);
 void	check_args(int argc, char **argv);
 
