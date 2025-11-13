@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 13:01:20 by frocha-b          #+#    #+#             */
-/*   Updated: 2025/11/13 18:20:39 by frocha-b         ###   ########.fr       */
+/*   Updated: 2025/11/13 18:23:08 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	sleeping(t_philo *philo)
 /* Philosopher thinks */
 void	thinking(t_philo *philo)
 {
-	monitoring(philo, THINKING, BRIGHT_YELLOW);
+	monitoring(philo, THINKING, YELLOW);
 }
 
 /* Main routine for each philosopher thread */
