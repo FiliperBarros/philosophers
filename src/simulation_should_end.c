@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_exit_error.c                                    :+:      :+:    :+:   */
+/*   simulation_should_end.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/09 15:10:08 by frocha-b          #+#    #+#             */
-/*   Updated: 2025/11/13 18:15:03 by frocha-b         ###   ########.fr       */
+/*   Created: 2025/11/13 18:20:13 by frocha-b          #+#    #+#             */
+/*   Updated: 2025/11/13 18:20:32 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	ft_exit_error(char *message)
+int	simulation_should_end(t_table *table)
 {
-	ft_putstr_fd("Error\n", 2);
-	ft_putstr_fd(message, 2);
-	ft_putstr_fd("\n", 2);
-	exit(1);
-}
+	int	end_flag;
 
-void	ft_set_color(int code)
-{
-	printf("\033[1;%dm", code);
-}
-
-void	ft_reset_color(void)
-{
-	printf("\033[0m");
+	end_flag = 0;
+	pthread_mutex_lock(&table->monitoring_mutex);
+	if (table->simulation_should_end)
+		end_flag = 1;
+	pthread_mutex_unlock(&table->monitoring_mutex);
+	return (end_flag);
 }

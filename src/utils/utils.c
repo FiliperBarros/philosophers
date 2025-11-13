@@ -6,12 +6,11 @@
 /*   By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:47:41 by frocha-b          #+#    #+#             */
-/*   Updated: 2025/11/13 12:59:06 by frocha-b         ###   ########.fr       */
+/*   Updated: 2025/11/13 18:19:00 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-#include <stddef.h>
 
 int	ft_is_digit(char c)
 {

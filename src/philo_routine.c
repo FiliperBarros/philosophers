@@ -6,23 +6,12 @@
 /*   By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 13:01:20 by frocha-b          #+#    #+#             */
-/*   Updated: 2025/11/13 18:12:22 by frocha-b         ###   ########.fr       */
+/*   Updated: 2025/11/13 18:20:39 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	simulation_should_end(t_table *table)
-{
-	int end_flag;
-
-	end_flag = 0;
-	pthread_mutex_lock(&table->monitoring_mutex);
-	if (table->simulation_should_end)
-		end_flag = 1;
-	pthread_mutex_unlock(&table->monitoring_mutex);
-	return (end_flag);
-}
 /* Prints a message with timestamp if simulation is ongoing */
 void	monitoring(t_philo *philo, char *message, int ansi_color)
 {
@@ -32,14 +21,14 @@ void	monitoring(t_philo *philo, char *message, int ansi_color)
 		return ;
 	timestamp = ft_get_time_in_ms() - philo->table->start_time;
 	ft_set_color(ansi_color);
-	printf("%ld "  "%d " "%s\n", timestamp, philo->id, message);
+	printf("%ld " "%d " "%s\n", timestamp, philo->id, message);
 	ft_reset_color();
 }
 
 /* Philosopher takes forks, eats, updates last meal and meal count */
 void	eating(t_philo *philo)
 {
-	long time;
+	long	time;
 
 	time = philo->table->time_to_eat;
 	if (philo->table->time_to_eat > philo->table->time_to_die)
@@ -59,7 +48,7 @@ void	eating(t_philo *philo)
 /* Philosopher sleeps for configured time */
 void	sleeping(t_philo *philo)
 {
-	long time;
+	long	time;
 
 	time = philo->table->time_to_sleep;
 	if (philo->table->time_to_sleep > philo->table->time_to_die)
@@ -95,7 +84,7 @@ void	*philo_routine(void *arg)
 		thinking(philo);
 		if (simulation_should_end(philo->table))
 			break ;
-		if(philo->id %2 != 0 && philo->table->nbr_of_philos % 2 != 0)
+		if (philo->id % 2 != 0 && philo->table->nbr_of_philos % 2 != 0)
 			usleep(MICRO_SECONDS);
 	}
 	return (NULL);
