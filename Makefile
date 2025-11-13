@@ -6,51 +6,56 @@
 #    By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/01 16:59:12 by frocha-b          #+#    #+#              #
-#    Updated: 2025/11/12 18:47:51 by frocha-b         ###   ########.fr        #
+#    Updated: 2025/11/13 14:21:12 by frocha-b         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= philo
 
-#Compiler and flags
+# Compiler and flags
 CC 			= cc
-CFLAGS		= -Wall -Werror -Wextra 
+CFLAGS		= -Wall -Werror -Wextra -g -pthread
 
-#Source and objects directories
+# Directories
 SRC_DIR 	= src
 OBJ_DIR 	= objects
 
 SRC_FILES 	= $(shell find $(SRC_DIR) -name "*.c")
+OBJS 		= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC_FILES))
 
-#Converts the source files in object files
-OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC_FILES))
-
-#Include paths
+# Includes
 PHILO_INC	= -Iincludes
 
-# Tell make where to search for source files
-VPATH		= $(SRC_DIR) $(SRC_DIR)/utils	
+# Colors
+GREEN		= \033[0;32m
+YELLOW		= \033[1;33m
+BLUE		= \033[0;34m	
+RESET		= \033[0m
 
 # **************************************************************************** #
 #                                MAKE RULES                                    #
 # **************************************************************************** #
 
-all : $(NAME)
+all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+	@echo "$(BLUE)🔗 Linking...$(RESET)"
+	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+	@echo "$(GREEN)✅ Built $(NAME)!$(RESET)"
 
 $(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -c $< -o $@ $(PHILO_INC)
+	@echo "$(YELLOW)🛠️  Compiling $<$(RESET)"
+	@$(CC) $(CFLAGS) -c $< -o $@ $(PHILO_INC)
 
 clean:
-	rm -rf $(OBJ_DIR)
+	@echo "$(BLUE)🧹 Cleaning object files...$(RESET)"
+	@rm -rf $(OBJ_DIR)
 
 fclean: clean
-	rm -f $(NAME)
+	@echo "$(BLUE)🧽 Removing executable...$(RESET)"
+	@rm -f $(NAME)
 
-re : fclean all
+re: fclean all
 
-.PHONY: all clean fclean re valgrind
-	
+.PHONY: all clean fclean re

@@ -6,11 +6,12 @@
 /*   By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:47:41 by frocha-b          #+#    #+#             */
-/*   Updated: 2025/11/12 18:13:15 by frocha-b         ###   ########.fr       */
+/*   Updated: 2025/11/13 12:59:06 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+#include <stddef.h>
 
 int	ft_is_digit(char c)
 {
@@ -21,7 +22,7 @@ long	ft_atol(char *n)
 {
 	int		i;
 	int		signal;
-	long 	res;
+	long	res;
 
 	i = 0;
 	signal = 1;
@@ -50,7 +51,6 @@ void	ft_putstr_fd(char *s, int fd)
 		write(fd, s++, 1);
 }
 
-
 void	*ft_memset(void *s, int c, size_t n)
 {
 	size_t	i;
@@ -64,15 +64,10 @@ void	*ft_memset(void *s, int c, size_t n)
 	return (s);
 }
 
-long	get_time_in_ms()
+long	ft_get_time_in_ms(void)
 {
 	struct timeval	current_time;
 
 	gettimeofday(&current_time, NULL);
 	return ((current_time.tv_sec * 1000) + current_time.tv_usec / 1000);
-}
-
-void set_bold_color(int code)
-{
-    printf("\033[1;%dm", code);
 }
