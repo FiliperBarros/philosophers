@@ -6,26 +6,27 @@
 /*   By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 13:01:20 by frocha-b          #+#    #+#             */
-/*   Updated: 2025/11/13 18:27:26 by frocha-b         ###   ########.fr       */
+/*   Updated: 2025/11/14 11:01:58 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-/* Prints a message with timestamp if simulation is ongoing */
 void	monitoring(t_philo *philo, char *message, int ansi_color)
 {
-	long	timestamp;
+	long	time;
 
-	if (simulation_should_end(philo->table))
-		return ;
-	timestamp = ft_get_time_in_ms() - philo->table->start_time;
-	ft_set_color(ansi_color);
-	printf("%5ld ms  %-1d  %-10s\n", timestamp, philo->id, message);
-	ft_reset_color();
+	pthread_mutex_lock(&philo->table->print_mutex);
+	if (!simulation_should_end(philo->table))
+	{
+		time = get_current_time() - philo->table->start_time;
+		printf("\033[1;%dm%-4ld ms  %-2d  %s\033[0m\n",
+			ansi_color, time, philo->id, message);
+	}
+	pthread_mutex_unlock(&philo->table->print_mutex);
 }
-
 /* Philosopher takes forks, eats, updates last meal and meal count */
+
 void	eating(t_philo *philo)
 {
 	long	time;
@@ -35,7 +36,7 @@ void	eating(t_philo *philo)
 		time = philo->table->time_to_die;
 	take_forks(philo);
 	pthread_mutex_lock(&philo->table->last_meal_mutex);
-	philo->last_meal = ft_get_time_in_ms();
+	philo->last_meal = get_current_time();
 	pthread_mutex_unlock(&philo->table->last_meal_mutex);
 	monitoring(philo, EATING, GREEN);
 	usleep(time * MICRO_SECONDS);

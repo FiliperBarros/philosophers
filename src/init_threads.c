@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 16:35:16 by frocha-b          #+#    #+#             */
-/*   Updated: 2025/11/13 14:11:55 by frocha-b         ###   ########.fr       */
+/*   Updated: 2025/11/14 11:00:03 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,12 @@ static void	create_threads(t_table *table)
 	int	i;
 
 	i = 0;
-	table->start_time = ft_get_time_in_ms();
+	table->start_time = get_current_time();
 	while (i < table->nbr_of_philos)
 	{
+		pthread_mutex_lock(&table->monitoring_mutex);
 		table->philos[i].last_meal = table->start_time;
+		pthread_mutex_unlock(&table->monitoring_mutex);
 		if (pthread_create(&table->philos[i].thread,
 				NULL, philo_routine, &table->philos[i]) != 0)
 		{

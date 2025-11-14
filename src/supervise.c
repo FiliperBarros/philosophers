@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 18:23:49 by frocha-b          #+#    #+#             */
-/*   Updated: 2025/11/13 18:13:18 by frocha-b         ###   ########.fr       */
+/*   Updated: 2025/11/14 10:59:14 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	ft_starved(t_philo *philo)
 	long	now;
 	long	diff;
 
-	now = ft_get_time_in_ms();
+	now = get_current_time();
 	diff = now - philo->last_meal;
 	return (diff >= philo->table->time_to_die);
 }
@@ -28,9 +28,8 @@ static void	ft_all_have_eaten(t_table *table)
 {
 	pthread_mutex_lock(&table->monitoring_mutex);
 	table->simulation_should_end = 1;
-	ft_set_color(MAGENTA);
-	printf("Every Philosopher had %d meals!\n", table->nbr_of_meals_to_eat);
-	ft_reset_color();
+	printf("\033[1;%dmEvery Philosopher had %d meals!\033[0m\n",
+		MAGENTA, table->nbr_of_meals_to_eat);
 	pthread_mutex_unlock(&table->monitoring_mutex);
 }
 

@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:47:41 by frocha-b          #+#    #+#             */
-/*   Updated: 2025/11/13 18:19:00 by frocha-b         ###   ########.fr       */
+/*   Updated: 2025/11/14 10:42:04 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	*ft_memset(void *s, int c, size_t n)
 	return (s);
 }
 
-long	ft_get_time_in_ms(void)
+long	get_current_time(void)
 {
 	struct timeval	current_time;
 

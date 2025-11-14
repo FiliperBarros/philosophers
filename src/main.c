@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:58:22 by frocha-b          #+#    #+#             */
-/*   Updated: 2025/11/13 14:15:58 by frocha-b         ###   ########.fr       */
+/*   Updated: 2025/11/14 10:39:28 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static void	destroy_mutexes(t_table *table)
 			pthread_mutex_destroy(&table->forks[i]);
 	}
 	pthread_mutex_destroy(&table->last_meal_mutex);
+	pthread_mutex_destroy(&table->print_mutex);
 	pthread_mutex_destroy(&table->monitoring_mutex);
 }
 

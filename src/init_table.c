@@ -6,7 +6,7 @@
 /*   By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 16:13:53 by frocha-b          #+#    #+#             */
-/*   Updated: 2025/11/13 13:15:01 by frocha-b         ###   ########.fr       */
+/*   Updated: 2025/11/14 10:38:12 by frocha-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	init_table(t_table *table, int argc, char **argv)
 	table->simulation_should_end = 0;
 	pthread_mutex_init(&table->monitoring_mutex, NULL);
 	pthread_mutex_init(&table->last_meal_mutex, NULL);
+	pthread_mutex_init(&table->print_mutex, NULL);
 	init_forks(table);
 	init_philos(table);
 	if (argc == 6)

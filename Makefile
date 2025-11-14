@@ -6,7 +6,7 @@
 #    By: frocha-b <frocha-b@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/01 16:59:12 by frocha-b          #+#    #+#              #
-#    Updated: 2025/11/13 14:21:12 by frocha-b         ###   ########.fr        #
+#    Updated: 2025/11/14 10:32:07 by frocha-b         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME	= philo
 
 # Compiler and flags
 CC 			= cc
-CFLAGS		= -Wall -Werror -Wextra -g -pthread
+CFLAGS		= -Wall -Werror -Wextra -g -pthread -fno-sanitize=all
 
 # Directories
 SRC_DIR 	= src
